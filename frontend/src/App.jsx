@@ -5,6 +5,10 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import PropertyForm from './pages/PropertyForm';
+import BuyerPortal from './pages/BuyerPortal';
+import SellerPortal from './pages/SellerPortal';
+import AgentPortal from './pages/AgentPortal';
+import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
   return (
@@ -15,6 +19,10 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/new-property" element={<PropertyForm />} />
+
+        <Route path="/portal/buyer" element={<ProtectedRoute requiredRole={'buyer'}><BuyerPortal /></ProtectedRoute>} />
+        <Route path="/portal/seller" element={<ProtectedRoute requiredRole={'seller'}><SellerPortal /></ProtectedRoute>} />
+        <Route path="/portal/agent" element={<ProtectedRoute requiredRole={'agent'}><AgentPortal /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   );
