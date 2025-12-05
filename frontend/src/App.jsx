@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import PropertyForm from './pages/PropertyForm';
 import SearchResults from './pages/SearchResults';
+import BecomeSeller from './pages/BecomeSeller';
 import BuyerPortal from './pages/BuyerPortal';
 import SellerPortal from './pages/SellerPortal';
 import AgentPortal from './pages/AgentPortal';
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/search" element={<SearchResults />} />
+        <Route path="/become-seller" element={<BecomeSeller />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/new-property" element={<PropertyForm />} />
 
