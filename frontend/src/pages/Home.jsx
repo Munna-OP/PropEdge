@@ -7,6 +7,8 @@ export default function Home(){
   const navigate = useNavigate();
   const [properties, setProperties] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetchProperties();
@@ -14,11 +16,16 @@ export default function Home(){
 
   const fetchProperties = async () => {
     try {
+      setLoading(true);
+      setError('');
       const res = await API.get('/properties');
       setProperties(res.data || []);
     } catch (err) {
-      console.log('Error fetching properties:', err);
+      console.error('Error fetching properties:', err);
+      setError('Failed to load properties');
       setProperties([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -33,12 +40,33 @@ export default function Home(){
 
   return (
     <div className="min-h-screen bg-white">
+      {/* NAVBAR */}
+      <nav className="bg-white shadow-sm sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-blue-600">🏠 PropEdge</h1>
+          <div className="flex gap-4">
+            <button
+              onClick={() => navigate('/login')}
+              className="text-gray-700 hover:text-blue-600 font-semibold"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => navigate('/register')}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            >
+              Sign Up
+            </button>
+          </div>
+        </div>
+      </nav>
+
       {/* HERO SECTION */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-5xl font-bold mb-4">🏠 PropEdge</h1>
-          <p className="text-2xl mb-8 text-blue-100">Find Your Perfect Home Today</p>
-          <p className="text-lg mb-12 text-blue-100">Discover thousands of properties and connect with agents</p>
+          <h1 className="text-5xl font-bold mb-4">Find Your Perfect Home Today</h1>
+          <p className="text-2xl mb-8 text-blue-100">Discover thousands of properties and connect with agents</p>
+          <p className="text-lg mb-12 text-blue-100">Your one-stop platform for buying, selling, and renting properties</p>
 
           {/* SEARCH BAR */}
           <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex gap-2 mb-8">
@@ -88,7 +116,15 @@ export default function Home(){
           <p className="text-xl text-gray-600">Handpicked properties for you</p>
         </div>
 
-        {featuredProperties.length > 0 ? (
+        {loading ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600 text-lg">Loading properties...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center py-12 bg-red-50 rounded-lg">
+            <p className="text-red-600 text-lg">{error}</p>
+          </div>
+        ) : featuredProperties.length > 0 ? (
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             {featuredProperties.map(p => (
               <PropertyCard key={p._id} p={p} />
