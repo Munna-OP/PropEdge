@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import PropertyCard from '../components/PropertyCard';
 
 export default function BrowseProperties() {
@@ -13,9 +12,27 @@ export default function BrowseProperties() {
       setLoading(true);
       setError('');
       try {
-        const res = await axios.get('/api/properties');
+        // Use fetch + text parsing to avoid unexpected JSON parse failures
+        const res = await fetch('/api/properties');
+        const text = await res.text();
+
+        let data = [];
+        if (text) {
+          try {
+            data = JSON.parse(text);
+          } catch (parseErr) {
+            console.warn('Response not valid JSON, fallback to empty array', parseErr);
+            data = [];
+          }
+        }
+
         if (!mounted) return;
-        setProperties(res.data || []);
+        // If API returned non-OK status and no data, show warning
+        if (!res.ok && (!data || data.length === 0)) {
+          setError('Failed to load properties from server. Showing sample listings.');
+        }
+
+        setProperties(Array.isArray(data) ? data : (data ? [data] : []));
       } catch (err) {
         console.error('Failed to load properties', err);
         if (!mounted) return;
