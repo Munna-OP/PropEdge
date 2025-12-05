@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up | PropEdge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-green-50 to-emerald-100 min-h-screen flex items-center justify-center px-4 py-8">
+
+  <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full">
+    
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-green-900 mb-2">🏠 PropEdge</h1>
+      <h2 class="text-2xl font-semibold text-gray-800">Create Account</h2>
+      <p class="text-gray-600 mt-1">Join our real estate community</p>
+    </div>
+
+    <!-- Error Message (hidden by default) -->
+    <div id="errorMessage" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm hidden">
+      <span id="errorText"></span>
+    </div>
+
+    <!-- Sign Up Form -->
+    <form id="signupForm" onsubmit="handleSignup(event)" class="space-y-4">
+      
+      <div>
+        <label class="block text-gray-700 font-semibold mb-2">Full Name</label>
+        <input
+          type="text"
+          id="name"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          placeholder="John Doe"
+          required
+        />
+        <span id="nameError" class="text-red-500 text-sm hidden"></span>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-semibold mb-2">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          placeholder="you@example.com"
+          required
+        />
+        <span id="emailError" class="text-red-500 text-sm hidden"></span>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-semibold mb-2">Password</label>
+        <input
+          type="password"
+          id="password"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          placeholder="••••••••"
+          required
+        />
+        <span id="passwordError" class="text-red-500 text-sm hidden"></span>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-semibold mb-2">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          placeholder="••••••••"
+          required
+        />
+        <span id="confirmError" class="text-red-500 text-sm hidden"></span>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-semibold mb-2">I am a...</label>
+        <div class="grid grid-cols-3 gap-2">
+          <button
+            type="button"
+            class="roleBtn py-2 px-3 rounded-lg font-semibold text-sm transition bg-gray-200 text-gray-700 hover:bg-gray-300"
+            data-role="buyer"
+            onclick="selectRole('buyer')"
+          >
+            Buyer
+          </button>
+          <button
+            type="button"
+            class="roleBtn py-2 px-3 rounded-lg font-semibold text-sm transition bg-gray-200 text-gray-700 hover:bg-gray-300"
+            data-role="seller"
+            onclick="selectRole('seller')"
+          >
+            Seller
+          </button>
+          <button
+            type="button"
+            class="roleBtn py-2 px-3 rounded-lg font-semibold text-sm transition bg-gray-200 text-gray-700 hover:bg-gray-300"
+            data-role="agent"
+            onclick="selectRole('agent')"
+          >
+            Agent
+          </button>
+        </div>
+        <input type="hidden" id="role" value="buyer" />
+      </div>
+
+      <button
+        type="submit"
+        id="signupBtn"
+        class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition duration-200"
+      >
+        Sign Up
+      </button>
+
+    </form>
+
+    <!-- Login Link -->
+    <div class="mt-6 text-center">
+      <p class="text-gray-600">
+        Already have an account? 
+        <a href="login.html" class="text-green-600 hover:underline font-semibold">Sign in</a>
+      </p>
+    </div>
+
+    <!-- Back to Landing -->
+    <div class="mt-4 text-center">
+      <a href="landing.html" class="text-gray-600 hover:text-gray-800 text-sm">← Back to Home</a>
+    </div>
+
+  </div>
+
+  <script>
+    let selectedRole = 'buyer';
+
+    function selectRole(role) {
+      selectedRole = role;
+      document.getElementById('role').value = role;
+
+      // Update button styles
+      document.querySelectorAll('.roleBtn').forEach(btn => {
+        if (btn.dataset.role === role) {
+          btn.classList.remove('bg-gray-200', 'text-gray-700');
+          btn.classList.add('bg-green-600', 'text-white');
+        } else {
+          btn.classList.remove('bg-green-600', 'text-white');
+          btn.classList.add('bg-gray-200', 'text-gray-700');
+        }
+      });
+    }
+
+    // Initialize buyer as selected
+    selectRole('buyer');
+
+    function validate() {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      let isValid = true;
+
+      // Clear previous errors
+      document.querySelectorAll('[id$="Error"]').forEach(el => el.classList.add('hidden'));
+
+      if (!name) {
+        document.getElementById('nameError').textContent = 'Name is required';
+        document.getElementById('nameError').classList.remove('hidden');
+        isValid = false;
+      }
+
+      if (!email) {
+        document.getElementById('emailError').textContent = 'Email is required';
+        document.getElementById('emailError').classList.remove('hidden');
+        isValid = false;
+      } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+        document.getElementById('emailError').textContent = 'Invalid email format';
+        document.getElementById('emailError').classList.remove('hidden');
+        isValid = false;
+      }
+
+      if (!password) {
+        document.getElementById('passwordError').textContent = 'Password is required';
+        document.getElementById('passwordError').classList.remove('hidden');
+        isValid = false;
+      } else if (password.length < 6) {
+        document.getElementById('passwordError').textContent = 'Password must be at least 6 characters';
+        document.getElementById('passwordError').classList.remove('hidden');
+        isValid = false;
+      }
+
+      if (password !== confirmPassword) {
+        document.getElementById('confirmError').textContent = 'Passwords do not match';
+        document.getElementById('confirmError').classList.remove('hidden');
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    async function handleSignup(event) {
+      event.preventDefault();
+
+      if (!validate()) return;
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const role = document.getElementById('role').value;
+      const signupBtn = document.getElementById('signupBtn');
+      const errorDiv = document.getElementById('errorMessage');
+      const errorText = document.getElementById('errorText');
+
+      // Clear previous errors
+      errorDiv.classList.add('hidden');
+
+      // Show loading state
+      signupBtn.disabled = true;
+      signupBtn.textContent = 'Creating Account...';
+
+      try {
+        // Call the backend API
+        const response = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, email, password, role })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Registration failed');
+        }
+
+        // Store token and user info
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+
+        // Redirect based on role
+        if (role === 'buyer') {
+          window.location.href = '/portal/buyer';
+        } else if (role === 'seller') {
+          window.location.href = '/portal/seller';
+        } else if (role === 'agent') {
+          window.location.href = '/portal/agent';
+        } else {
+          window.location.href = '/';
+        }
+
+      } catch (error) {
+        console.error('Signup error:', error);
+        errorText.textContent = error.message || 'Registration failed. Please try again.';
+        errorDiv.classList.remove('hidden');
+        signupBtn.disabled = false;
+        signupBtn.textContent = 'Sign Up';
+      }
+    }
+  </script>
+
+</body>
+</html>
