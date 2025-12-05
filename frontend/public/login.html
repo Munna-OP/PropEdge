@@ -116,16 +116,22 @@
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
 
-        // Redirect based on role
-        const role = data.user.role;
-        if (role === 'buyer') {
-          window.location.href = '/portal/buyer';
-        } else if (role === 'seller') {
-          window.location.href = '/portal/seller';
-        } else if (role === 'agent') {
-          window.location.href = '/portal/agent';
+        // Redirect based on role or `next` query param
+        const params = new URLSearchParams(window.location.search);
+        const next = params.get('next');
+        if (next) {
+          window.location.href = next;
         } else {
-          window.location.href = '/';
+          const role = data.user.role;
+          if (role === 'buyer') {
+            window.location.href = '/portal/buyer';
+          } else if (role === 'seller') {
+            window.location.href = '/portal/seller';
+          } else if (role === 'agent') {
+            window.location.href = '/portal/agent';
+          } else {
+            window.location.href = '/';
+          }
         }
 
       } catch (error) {

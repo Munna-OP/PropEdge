@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 
 export default function Login(){
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -20,7 +21,14 @@ export default function Login(){
     setLoading(true);
     try {
       await login(email, password);
-      navigate('/dashboard');
+      // If `next` query param is present, redirect there after login
+      const params = new URLSearchParams(location.search);
+      const next = params.get('next');
+      if (next) {
+        navigate(next);
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
     } finally {
