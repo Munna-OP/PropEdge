@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PropEdge - Find Your Dream House</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .hero {
+      background-image: url("https://images.unsplash.com/photo-1568605114967-8130f3a36994");
+      background-size: cover;
+      background-position: center;
+      height: 90vh;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- ✅ TOP NAVBAR -->
+  <nav class="bg-blue-900 text-white px-8 py-4 flex justify-between items-center">
+
+    <div class="flex items-center space-x-2 text-xl font-bold">
+      🏠 <span>HOME FINDER</span>
+    </div>
+
+    <div class="space-x-6 text-sm flex items-center">
+      <a href="/login" class="hover:underline">Login</a>
+      <a href="/register" class="hover:underline">Sign Up</a>
+      <a href="#" class="hover:underline">Seller</a>
+      <a href="#" class="hover:underline">Agent</a>
+
+      <select class="text-black px-2 py-1 rounded" onchange="handlePortalSelect(this.value)">
+        <option value="">Portals</option>
+        <option value="/portal/buyer">Buyer</option>
+        <option value="/portal/seller">Seller</option>
+        <option value="/portal/agent">Agent</option>
+      </select>
+    </div>
+  </nav>
+
+  <!-- ✅ HERO SECTION -->
+  <section class="hero flex items-center px-16">
+    <div class="bg-black bg-opacity-50 p-10 rounded-xl max-w-xl">
+      <h1 class="text-white text-5xl font-bold mb-6">
+        FIND YOUR <br> DREAM HOUSE
+      </h1>
+
+      <div class="flex">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search by city, area, or property..."
+          class="p-3 w-full rounded-l outline-none"
+        />
+        <button class="bg-blue-800 text-white px-6 rounded-r hover:bg-blue-700" onclick="handleSearch()">
+          Search
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✅ FEATURED PROPERTIES -->
+  <section class="py-16 max-w-7xl mx-auto px-6">
+
+    <h2 class="text-3xl font-bold text-center mb-10">
+      Featured Properties
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <!-- Property Card 1 -->
+      <div class="bg-white shadow-lg rounded overflow-hidden hover:shadow-xl transition">
+        <img src="https://images.unsplash.com/photo-1572120360610-d971b9b639aa" alt="2 BHK Apartment" class="h-56 w-full object-cover">
+        <div class="p-4">
+          <h3 class="font-bold text-xl">2 BHK Apartment</h3>
+          <p class="text-gray-600">Kolkata</p>
+          <p class="text-blue-700 font-bold mt-1">₹45,00,000</p>
+          <button class="mt-3 bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">View</button>
+        </div>
+      </div>
+
+      <!-- Property Card 2 -->
+      <div class="bg-white shadow-lg rounded overflow-hidden hover:shadow-xl transition">
+        <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde" alt="Luxury Villa" class="h-56 w-full object-cover">
+        <div class="p-4">
+          <h3 class="font-bold text-xl">Luxury Villa</h3>
+          <p class="text-gray-600">New Town</p>
+          <p class="text-blue-700 font-bold mt-1">₹1.2 Cr</p>
+          <button class="mt-3 bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">View</button>
+        </div>
+      </div>
+
+      <!-- Property Card 3 -->
+      <div class="bg-white shadow-lg rounded overflow-hidden hover:shadow-xl transition">
+        <img src="https://images.unsplash.com/photo-1599423300746-b62533397364" alt="Studio Flat" class="h-56 w-full object-cover">
+        <div class="p-4">
+          <h3 class="font-bold text-xl">Studio Flat</h3>
+          <p class="text-gray-600">Salt Lake</p>
+          <p class="text-blue-700 font-bold mt-1">₹12,000 / month</p>
+          <button class="mt-3 bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">View</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ✅ CTA SECTION -->
+  <section class="bg-blue-800 text-white py-12 text-center">
+    <h2 class="text-3xl font-bold mb-4">Ready to Get Started?</h2>
+    <p class="mb-6 text-lg">Sign up today to list your property or find your dream home.</p>
+    <div class="space-x-4">
+      <a href="/register?role=seller" class="bg-white text-blue-800 px-6 py-3 rounded font-bold hover:bg-gray-100">Become a Seller</a>
+      <a href="/register?role=buyer" class="bg-blue-600 text-white px-6 py-3 rounded font-bold hover:bg-blue-700">Browse Properties</a>
+    </div>
+  </section>
+
+  <!-- ✅ FOOTER -->
+  <footer class="bg-blue-900 text-white text-center py-5">
+    © 2025 PropEdge | Smart Real Estate Platform
+  </footer>
+
+  <script>
+    function handleSearch() {
+      const searchQuery = document.getElementById('searchInput').value;
+      if (searchQuery.trim()) {
+        window.location.href = `/?q=${encodeURIComponent(searchQuery)}`;
+      }
+    }
+
+    function handlePortalSelect(portalPath) {
+      if (portalPath) {
+        window.location.href = portalPath;
+      }
+    }
+
+    // Allow search on Enter key
+    document.getElementById('searchInput')?.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') handleSearch();
+    });
+  </script>
+
+</body>
+</html>
