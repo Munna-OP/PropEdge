@@ -12,6 +12,7 @@ import BuyerPortal from './pages/BuyerPortal';
 import SellerPortal from './pages/SellerPortal';
 import AgentPortal from './pages/AgentPortal';
 import AgentDashboard from './pages/AgentDashboard';
+import AgentLanding from './pages/AgentLanding';
 import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="/portal/seller" element={<ProtectedRoute requiredRole={'seller'}><SellerPortal /></ProtectedRoute>} />
         <Route path="/portal/agent" element={<ProtectedRoute requiredRole={'agent'}><AgentPortal /></ProtectedRoute>} />
         <Route path="/agent-dashboard" element={<ProtectedRoute requiredRole={'agent'}><AgentDashboard /></ProtectedRoute>} />
+        <Route path="/agent" element={<AgentLanding />} />
       </Routes>
     </BrowserRouter>
   );
