@@ -40,27 +40,6 @@ export default function Home(){
 
   return (
     <div className="min-h-screen bg-white">
-      {/* NAVBAR */}
-      <nav className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-blue-600">🏠 PropEdge</h1>
-          <div className="flex gap-4">
-            <button
-              onClick={() => navigate('/login')}
-              className="text-gray-700 hover:text-blue-600 font-semibold"
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => navigate('/register')}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-            >
-              Sign Up
-            </button>
-          </div>
-        </div>
-      </nav>
-
       {/* HERO SECTION */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
